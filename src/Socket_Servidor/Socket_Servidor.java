@@ -12,6 +12,7 @@ public class Socket_Servidor {
 
 
      public static void main(String[] args) throws IOException {
+     
      ServerSocket servidor = new ServerSocket(2050);
      
      System.out.println("Porta 2050 aberta!");

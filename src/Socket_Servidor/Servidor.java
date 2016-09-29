@@ -5,10 +5,13 @@
  */
 package Socket_Servidor;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,11 +42,11 @@ public class Servidor extends javax.swing.JFrame {
 
         lServidor = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textAreaServidor = new javax.swing.JTextArea();
         lPorta = new javax.swing.JLabel();
         textPorta = new javax.swing.JTextField();
         bConectar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lbStatus = new javax.swing.JLabel();
         lPortaAberta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,14 +54,18 @@ public class Servidor extends javax.swing.JFrame {
         lServidor.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         lServidor.setText("Servidor");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textAreaServidor.setColumns(20);
+        textAreaServidor.setRows(5);
+        jScrollPane1.setViewportView(textAreaServidor);
 
         lPorta.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         lPorta.setText("Porta:");
 
-        textPorta.setText("porta");
+        textPorta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textPortaActionPerformed(evt);
+            }
+        });
 
         bConectar.setText("Conectar");
         bConectar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -72,11 +79,10 @@ public class Servidor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setText("Conectado");
+        lbStatus.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbStatus.setText("Desconectado");
 
         lPortaAberta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lPortaAberta.setText("Porta Aberta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,14 +99,14 @@ public class Servidor extends javax.swing.JFrame {
                         .addComponent(lPortaAberta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bConectar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 12, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -109,7 +115,7 @@ public class Servidor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lServidor)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,8 +135,7 @@ public class Servidor extends javax.swing.JFrame {
         try {
             
             conectar();
-            
-            
+                       
           
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,13 +148,36 @@ public class Servidor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bConectarActionPerformed
 
+    private void textPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPortaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textPortaActionPerformed
+
     public void conectar() throws IOException {
         int numero = Integer.parseInt(textPorta.getText());
 
         ServerSocket servidor = new ServerSocket(numero);
         
+        lPortaAberta.setText("Porta Aberta");
+        lbStatus.setText("Conectado");
+        
+        Socket cliente = servidor.accept();
+        
+        while(true){
+                   
+           
+            DataOutputStream dout = new DataOutputStream(cliente.getOutputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(cliente.getInputStream()));      
+            
+           String s = br.readLine();
+           textAreaServidor.setText("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+           textAreaServidor.setText(s+"\n");
+        }
        
-    
+        
+        
+        
+        
+        
     }
     
     /**
@@ -179,23 +207,25 @@ public class Servidor extends javax.swing.JFrame {
         }
         //</editor-fold>
         
+       
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Servidor().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bConectar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lPorta;
     private javax.swing.JLabel lPortaAberta;
     private javax.swing.JLabel lServidor;
+    private javax.swing.JLabel lbStatus;
+    private javax.swing.JTextArea textAreaServidor;
     private javax.swing.JTextField textPorta;
     // End of variables declaration//GEN-END:variables
 }

@@ -27,36 +27,40 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
+                      <Component id="lbMsg" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="textMsg" min="-2" pref="377" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="buttonEnviar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="377" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" pref="91" max="-2" attributes="0"/>
+                              <EmptySpace min="142" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" pref="91" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lbStatus" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lbIp" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="textIp" min="-2" pref="134" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="lbPorta" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="textPorta" min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="buttonConectar" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jFormattedTextField1" min="-2" pref="134" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -67,19 +71,21 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jFormattedTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbIp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textIp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbPorta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textPorta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonConectar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="242" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lbStatus" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="213" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textMsg" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbMsg" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -110,50 +116,52 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="jTextField1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="textMsg">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="buttonEnviar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enviar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEnviarActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jFormattedTextField1"/>
-      </Properties>
+    <Component class="javax.swing.JFormattedTextField" name="textIp">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="lbIp">
       <Properties>
         <Property name="text" type="java.lang.String" value="N&#xba; IP Servidor"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="lbPorta">
       <Properties>
         <Property name="text" type="java.lang.String" value="Porta:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="textPorta">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="buttonConectar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Conectar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonConectarMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="lbMsg">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Mensagem:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbStatus">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
   </SubComponents>
