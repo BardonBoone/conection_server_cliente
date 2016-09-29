@@ -6,7 +6,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 public class Socket_Servidor {
+    
+
 
      public static void main(String[] args) throws IOException {
      ServerSocket servidor = new ServerSocket(2050);
