@@ -25,10 +25,16 @@ public class Servidor extends javax.swing.JFrame {
     /**
      * Creates new form Servidor
      */
+    private static Socket cliente;
+    private static ServerSocket servidor;
+    private static Thread threadServidor;
+    private static ServidorThread servidorThread;
+    
+    
+
     public Servidor() {
         initComponents();
-        
-        
+
     }
 
     /**
@@ -48,6 +54,10 @@ public class Servidor extends javax.swing.JFrame {
         bConectar = new javax.swing.JButton();
         lbStatus = new javax.swing.JLabel();
         lPortaAberta = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textAreaServidor1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,41 +83,55 @@ public class Servidor extends javax.swing.JFrame {
                 bConectarMouseClicked(evt);
             }
         });
-        bConectar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bConectarActionPerformed(evt);
-            }
-        });
 
         lbStatus.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lbStatus.setText("Desconectado");
 
         lPortaAberta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
 
+        textAreaServidor1.setColumns(20);
+        textAreaServidor1.setRows(5);
+        jScrollPane2.setViewportView(textAreaServidor1);
+
+        jButton1.setText("Enviar");
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel1.setText("Mensagem");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 11, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(lPortaAberta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bConectar)
-                        .addContainerGap())
+                        .addComponent(bConectar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 12, Short.MAX_VALUE))))
+                                .addGap(101, 101, 101)
+                                .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(166, 166, 166)
+                                .addComponent(lPortaAberta)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,69 +141,71 @@ public class Servidor extends javax.swing.JFrame {
                     .addComponent(lServidor)
                     .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lPortaAberta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lPorta)
                     .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bConectar)
-                    .addComponent(lPortaAberta))
-                .addGap(0, 9, Short.MAX_VALUE))
+                    .addComponent(bConectar))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bConectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bConectarMouseClicked
-    
+
         try {
-            
+
             conectar();
-                       
-          
+
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bConectarMouseClicked
-
-    private void bConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConectarActionPerformed
-    
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bConectarActionPerformed
 
     private void textPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPortaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textPortaActionPerformed
 
     public void conectar() throws IOException {
-        int numero = Integer.parseInt(textPorta.getText());
 
-        ServerSocket servidor = new ServerSocket(numero);
-        
+        int porta = Integer.parseInt(textPorta.getText());
+
         lPortaAberta.setText("Porta Aberta");
         lbStatus.setText("Conectado");
-        
-        Socket cliente = servidor.accept();
-        
-        while(true){
-                   
-           
-            DataOutputStream dout = new DataOutputStream(cliente.getOutputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(cliente.getInputStream()));      
+
+        try {
+            servidor = new ServerSocket(porta);
             
-           String s = br.readLine();
-           textAreaServidor.setText("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
-           textAreaServidor.setText(s+"\n");
+            //cliente = servidor.accept();
+            
+            servidorThread = new ServidorThread(servidor);
+            threadServidor = new Thread(servidorThread);
+            threadServidor.start();
+            
+            textAreaServidor.append("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+
+            
+        } catch (Exception e) {
+            System.out.println("Erro na thread cliente: " + e);
         }
+
        
-        
-        
-        
-        
-        
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -206,26 +232,38 @@ public class Servidor extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Servidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-       
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Servidor().setVisible(true);
-                
+
             }
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bConectar;
+    /*public static javax.swing.JButton bConectar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lPorta;
     private javax.swing.JLabel lPortaAberta;
     private javax.swing.JLabel lServidor;
     private javax.swing.JLabel lbStatus;
-    private javax.swing.JTextArea textAreaServidor;
+    public static javax.swing.JTextArea textAreaServidor;
+    private javax.swing.JTextField textPorta;
+    */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JButton bConectar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lPorta;
+    private javax.swing.JLabel lPortaAberta;
+    private javax.swing.JLabel lServidor;
+    private javax.swing.JLabel lbStatus;
+    public static javax.swing.JTextArea textAreaServidor;
+    public static javax.swing.JTextArea textAreaServidor1;
     private javax.swing.JTextField textPorta;
     // End of variables declaration//GEN-END:variables
+
 }

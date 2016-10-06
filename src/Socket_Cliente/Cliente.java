@@ -5,14 +5,14 @@
  */
 package Socket_Cliente;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeRegExp.test;
+
 
 /**
  *
@@ -20,9 +20,11 @@ import static jdk.nashorn.internal.objects.NativeRegExp.test;
  */
 public class Cliente extends javax.swing.JFrame {
 
-    DataOutputStream dout;
-    BufferedReader br;
-    Socket cliente=null;
+    private static String ip;
+    private static Socket cliente;
+    private static PrintStream saida;
+    private static boolean conversa = false;
+    
     /**
      * Creates new form Cliente
      */
@@ -41,8 +43,7 @@ public class Cliente extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        textMsg = new javax.swing.JTextField();
+        textMsg = new javax.swing.JTextArea();
         buttonEnviar = new javax.swing.JButton();
         textIp = new javax.swing.JFormattedTextField();
         lbIp = new javax.swing.JLabel();
@@ -51,15 +52,18 @@ public class Cliente extends javax.swing.JFrame {
         buttonConectar = new javax.swing.JButton();
         lbMsg = new javax.swing.JLabel();
         lbStatus = new javax.swing.JLabel();
+        buttonDesconectar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaConversa1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel1.setText("Cliente");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textMsg.setColumns(20);
+        textMsg.setRows(5);
+        jScrollPane1.setViewportView(textMsg);
 
         buttonEnviar.setText("Enviar");
         buttonEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +88,18 @@ public class Cliente extends javax.swing.JFrame {
 
         lbStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbStatus.setText("Desconectado do Servidor");
+
+        buttonDesconectar.setText("Desconectar");
+        buttonDesconectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDesconectarActionPerformed(evt);
+            }
+        });
+
+        jTextAreaConversa1.setColumns(20);
+        jTextAreaConversa1.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaConversa1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,34 +107,37 @@ public class Cliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbMsg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonEnviar)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(9, 9, 9))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbStatus)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lbIp)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(textIp, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(lbPorta)))
+                                .addComponent(lbIp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textIp, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(lbPorta)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(buttonConectar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonConectar)))))
+                                .addComponent(buttonDesconectar)))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(187, 187, 187)
+                .addComponent(lbStatus)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,17 +150,22 @@ public class Cliente extends javax.swing.JFrame {
                     .addComponent(textIp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbPorta)
                     .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonConectar))
+                    .addComponent(buttonConectar)
+                    .addComponent(buttonDesconectar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbStatus)
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonEnviar)
-                    .addComponent(lbMsg))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbMsg)
+                        .addGap(56, 56, 56))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonEnviar)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
         pack();
@@ -159,27 +183,59 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonConectarMouseClicked
 
     private void buttonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarActionPerformed
-       try {
-            dout.writeBytes(textMsg.getText()+"\n");
-            // TODO add your handling code here:
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+       
+    if(buttonEnviar.isEnabled()){
+            String novaMsg = textMsg.getText();
+            
+            if(!conversa){
+                conversa = true;
+                jTextAreaConversa1.append("Você: " + novaMsg);   
+            }else{
+                jTextAreaConversa1.append("\n" + "Você: " + novaMsg); 
+            }
+            
+            saida.println(novaMsg);
+            
+            textMsg.setText("");
         }
-    
 
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonEnviarActionPerformed
 
+    private void buttonDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDesconectarActionPerformed
+      if(buttonDesconectar.isEnabled()){
+            try {
+                saida.close();
+                cliente.close();
+                buttonConectar.setEnabled(true);
+                textPorta.setText("");
+                buttonEnviar.setEnabled(false);
+                buttonDesconectar.setEnabled(false);
+                textMsg.setText("");
+                textMsg.setEnabled(false);
+                textMsg.setText("");
+                textMsg.setEnabled(false);
+                conversa = false;
+            } catch (IOException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonDesconectarActionPerformed
+
     public void conectar()throws IOException {
         
 try {
-        //int ip = Integer.parseInt(textIp.getText());
+        ip = textIp.getText();
         int porta = Integer.parseInt(textPorta.getText());
         
         cliente = new Socket(textIp.getText(), porta);
-        dout = new DataOutputStream(cliente.getOutputStream());
+       
+        saida = new PrintStream(cliente.getOutputStream());
         
         lbStatus.setText("Conectado ao servidor");
+
 } catch (UnknownHostException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -226,16 +282,18 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonConectar;
+    private javax.swing.JButton buttonDesconectar;
     private javax.swing.JButton buttonEnviar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextAreaConversa1;
     private javax.swing.JLabel lbIp;
     private javax.swing.JLabel lbMsg;
     private javax.swing.JLabel lbPorta;
     private javax.swing.JLabel lbStatus;
     private javax.swing.JFormattedTextField textIp;
-    private javax.swing.JTextField textMsg;
+    private static javax.swing.JTextArea textMsg;
     private javax.swing.JTextField textPorta;
     // End of variables declaration//GEN-END:variables
 }
