@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Socket_Servidor;
 
 import java.net.ServerSocket;
@@ -11,7 +6,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Minska
+ * @author Bardon
  */
 public class ServidorThread implements Runnable {
     Socket cliente;
@@ -34,7 +29,7 @@ public class ServidorThread implements Runnable {
                 Servidor.textAreaServidor.append("\n"+cliente.getInetAddress().getHostAddress()+": "+ entrada.nextLine());
             }
         } catch (Exception e) {
-            System.out.println("Erro na thread cliente: " + e);
+            System.out.println("Erro na thread: " + e);
         }
     }
 }
